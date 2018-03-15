@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    
+    <script>
+        function boldText() {
+            document.getElementById('outputText').innerHTML += 
+                "<b>" + document.getElementById('inputText').value + "</b><br>";
+        }
+        
+        function italicText() {
+            document.getElementById('outputText').innerHTML += 
+                "<i>" + document.getElementById('inputText').value + "</i><br>";
+        }
+        
+        function centerAlignText() {
+            document.getElementById('outputText').innerHTML += 
+                "<div align=\"center\">" + document.getElementById('inputText').value + "</div><br>";
+        }
+        
+        function plus() {
+            var number1 = Number(document.getElementById('inputNumber1').value),
+                number2 = Number(document.getElementById('inputNumber2').value),
+                result = number1 + number2;
+            document.getElementById('resultNumber').innerHTML += 
+                number1 + " + " + number2 + " = " + result + "<br>";
+        }
+        
+        function minus() {
+            var number1 = Number(document.getElementById('inputNumber1').value),
+                number2 = Number(document.getElementById('inputNumber2').value),
+                result = number1 - number2;
+            document.getElementById('resultNumber').innerHTML += 
+                number1 + " - " + number2 + " = " + result + "<br>";
+        }
+        
+        function multiply() {
+            var number1 = Number(document.getElementById('inputNumber1').value),
+                number2 = Number(document.getElementById('inputNumber2').value),
+                result = number1 * number2;
+            document.getElementById('resultNumber').innerHTML += 
+                number1 + " * " + number2 + " = " + result + "<br>";
+        }
+        
+        function divide() {
+            var number1 = Number(document.getElementById('inputNumber1').value),
+                number2 = Number(document.getElementById('inputNumber2').value),
+                result = number1 / number2;
+            document.getElementById('resultNumber').innerHTML += 
+                number1 + " / " + number2 + " = " + result + "<br>";
+        }
+    </script>
+</head>
+
+<body>
+    <form>
+        <label for="inputText">Введите строку: </label>
+        <input id="inputText" type="text" size="64">
+        <br><br>
+
+        <input type="button" value="сделать полужирным шрифтом" onclick="boldText()">
+        <br><br>
+        
+        <input type="button" value="сделать курсивом" onclick="italicText()">
+        <br><br>
+        
+        <input type="button" value="разместить по центру" onclick="centerAlignText()">
+        <br><br>
+    </form>
+    
+    <div id="outputText"></div>
+
+    <br><hr><br>
+    
+    <form>
+        <label for="inputNumber1">Введите первое число: </label>
+        <input id="inputNumber1" type="number">
+        <br><br>
+        
+        <label for="inputNumber2">Введите второе число: </label>
+        <input id="inputNumber2" type="number">
+        <br><br>
+        
+        <input type="image" src="Math-plus-icon.png" alt="сложение" width="32" onclick="plus();return false;">        
+        <input type="image" src="Math-minus-icon.png" alt="вычитание" width="32" onclick="minus();return false;">
+        <input type="image" src="Math-multiply-icon.png" alt="умножение" width="32" onclick="multiply();return false;">
+        <input type="image" src="Math-divide-icon.png" alt="деление" width="32" onclick="divide();return false;">
+        <br><br>
+        
+    </form>
+    
+    <div id="resultNumber"></div>
+    
+</body>
+</html>

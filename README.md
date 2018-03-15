@@ -1,0 +1,1 @@
+- [Атрибут onclick у элементов input с типом button или image.](button-and-img-onclick-event/)
