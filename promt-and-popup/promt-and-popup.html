@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script>
+
+        // Функция для генерации случайного цвета:
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    
+        // Функция для показа всплывающего окна:
+        function popupCenter(url, title, w, h) {
+            var left = (screen.width / 2) - (w / 2);
+            var top = (screen.height / 2) - (h / 2);
+            return window.open(url, title,
+                'titlebar=no, toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='
+                    + w + ', height=' + h + ', top=' + top + ', left=' + left);
+            // Примечание:
+            // Большинство современных браузеров больше не позволяют скрывать адресную строку по причинам безопасности,
+            // т.к. это затрудняет распознавание пользователем фишинг-сайтов.
+            // Также современные браузеры не позволяют фиксировать размер всплывающего окна,
+            // потому что это неудобно для пользователя.
+        }
+        
+        function getDobPhrase(dob) {
+            switch ((new Date(dob)).getMonth()) {
+                case 6:
+                case 7:
+                case 8:
+                    return "Летний";
+                case 9:
+                case 10:
+                case 11:
+                    return "Осенний";
+                case 0:
+                case 1:
+                case 2:
+                    return "Весенний";
+                case 3:
+                case 4:
+                case 5:
+                    return "Зимний";
+                default:
+                    return "";
+            }
+        }
+    
+        var data = prompt("Введите следующие данные, разделяя их точкой с запятой:", "фамилия; имя; отчество; дата рождения; адрес проживания; телефон; e-mail"),
+            parts = data.split(';'),
+            
+            lastName = parts[0].trim(),    // фамилия.
+            firstName = parts[1].trim(),   // имя.
+            patronymic = parts[2].trim(),  // отчество.
+            dob = parts[3].trim(),         // дата рождения.
+            address = parts[4].trim(),     // адрес проживания.
+            tel = parts[5].trim(),         // телефон.
+            email = parts[6].trim(),       // e-mail.
+            
+            popupWin = popupCenter(null, null, 450, 450),
+            popupBody = popupWin.document.getElementsByTagName('body')[0],
+            
+            lastNameEl = popupWin.document.createElement("div"),
+            dobEl = popupWin.document.createElement("div"),
+            telEl = popupWin.document.createElement("div"),
+            emailEl = popupWin.document.createElement("div");
+        
+        // Фамилия Имя Отчество – прописными полужирными буквами нестандартного цвета.
+        lastNameEl.innerHTML = (lastName + ' ' + firstName + ' ' + patronymic).toUpperCase().bold().fontcolor(getRandomColor());
+        popupBody.appendChild(lastNameEl)
+        
+        // Дата рождения – курсивом, причем рядом дописывается фраза вида «Летний – для рожденных в июне, июле, августе» и т.п.
+        dobEl.innerHTML = (dob + ' ' + getDobPhrase(dob)).italics();
+        popupBody.appendChild(dobEl)
+        
+        // Номер телефона – машинописным шрифтом.
+        telEl.innerHTML = tel.fixed();
+        popupBody.appendChild(telEl)
+
+        // e-mail – запрашивается у пользователя стоит ли размещать данное поле на новой странице – при получении положительного ответа – он оформляется как гиперссылка. 
+        if (confirm("Стоит ли размещать e-mail на новой странице?") == 1) {
+            emailEl.innerHTML = email.link("mailto:" + email);
+            popupBody.appendChild(emailEl)
+        }
+
+    </script>
+</head>
+
+<body>
+</body>
+</html>
