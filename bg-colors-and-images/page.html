@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script>
+        // Функция для генерации случайного цвета:
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+        
+        // Функция для генерации случайного числа в диапазоне [min,max]:
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+    
+        // Функция для смены цвета и размера шрифта при наведении на элемент:
+        function changeTextColor(el) {
+            el.style.color = getRandomColor();
+            el.style.fontSize = getRandomInt(24, 64) + "px";
+        }
+    </script>
+</head>
+<body background="memphis-colorful.png">
+    <!-- источник картинки: https://www.toptal.com/designers/subtlepatterns/memphis-colorful/ -->
+    
+    <!-- Текст, который изменяет свой цвет и размер шрифта при наведении на него. -->
+    <p onmouseover="changeTextColor(this)">Текст, который изменяет свой цвет и размер шрифта при наведении на него.</p>
+    
+    <!-- Кнопка, которая убирает фоновый рисунок -->
+    <p><button onclick="document.body.style.backgroundImage='none';">Убрать фоновый рисунок</button></p>
+    
+    <!-- Кнопка, которая меняет цвет фона на альтернативный -->
+    <p><button onclick="document.body.style.backgroundColor=getRandomColor();">Поменять цвет фона на альтернативный</button></p>
+    
+    <!-- Кнопка, которая устанавливает другой рисунок. -->
+    <p><button onclick="document.body.style.backgroundImage='url(doodles.png)';">Установить другой фоновый рисунок.</button></p>
+    <!-- источник картинки: https://www.toptal.com/designers/subtlepatterns/doodles/ -->
+    
+    <p>
+        <figure>
+            <figcaption>Картинка, которая изменяет свой размер при нажатии на нее:</figcaption>
+            
+            <!-- Картинка, которая изменяет свой размер при нажатии на нее. -->
+            <img src="hexagon-2307350_640.png" width="55" height="64" onmousedown="this.style.width = '277px'; this.style.height = '320px';" alt="Hexagon, Symbol, Gui, Internet">
+            <!-- источник картинки: https://pixabay.com/en/hexagon-symbol-gui-internet-2307350/ -->
+            
+        </figure>
+    </p>
+
+    <!-- Кнопка, меняющая содержимое слоя -->
+    <p><button onclick="document.getElementById('content').innerHTML = 'Новое содержимое слоя.';">Изменить содержимое слоя</button></p>
+    
+    <!-- Слой — это элемент веб-страницы, созданный с помощью тега <div>, к которому применяется стилевое оформление. -->
+    <div id="content">Исходное содержимое слоя.</div>
+</body>
+</html>
