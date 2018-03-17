@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Простой калькулятор</title>
+    
+    <style>
+        input[type=button] {
+            width: 77px;
+            height: 37px;
+            margin-bottom: 3px;
+        }
+    </style>
+    
+    <script>
+        var operands = [0, 0],
+            operation;
+            
+        function clearInputText(el) {
+            el.value = "";
+        }
+        
+        function factorial(num) {
+            if (num < 0) {  // если число меньше 0:
+                return -1;
+            } else if (num == 0) {  // если число равно 0,
+                return 1;  // то факториал равен 1.
+            }
+            var tmp = num;
+            while (num-- > 2) {
+                tmp *= num;
+            }
+            return tmp;
+        }
+
+        function btnClick(btnVal) {
+            var display = document.getElementById("displayField"),
+                log = document.getElementById("log"),
+                arg;
+            switch (btnVal) {
+                case "0":
+                case "1":
+                case "2":
+                case "3":
+                case "4":
+                case "5":
+                case "6":
+                case "7":
+                case "8":
+                case "9":
+                    display.value = String(display.value).concat(btnVal);
+                    break;
+                case ",":
+                    display.value = String(display.value).concat(".");
+                    break;
+                
+                case "π":
+                    display.value = Math.PI;  // число π.
+                    break;
+                case "e":
+                    display.value = Math.E;  // постоянная Эйлера, равна приблизительно 2.718281828459045.
+                    break;
+                
+                case "x!":
+                    arg = Number(display.value);
+                    display.value = factorial(arg);
+                    log.innerHTML += String(arg) + "! = " + display.value + "<br>";
+                    break;
+                case "sin":
+                    arg = Number(display.value);
+                    display.value = Math.sin(arg);
+                    log.innerHTML += "sin(" + String(arg) + ") = " + display.value + "<br>";
+                    break;
+                case "cos":
+                    arg = Number(display.value);
+                    display.value = Math.cos(arg);
+                    log.innerHTML += "cos(" + String(arg) + ") = " + display.value + "<br>";
+                    break;
+                case "tan":
+                    arg = Number(display.value);
+                    display.value = Math.tan(arg);
+                    log.innerHTML += "tan(" + String(arg) + ") = " + display.value + "<br>";
+                    break;
+                case "ln":
+                    arg = Number(display.value);
+                    display.value = Math.log(arg);
+                    log.innerHTML += "ln(" + String(arg) + ") = " + display.value + "<br>";
+                    break;
+                case "log₁₀":
+                    arg = Number(display.value);
+                    display.value = Math.log(arg) / Math.log(10);
+                    log.innerHTML += "log₁₀(" + String(arg) + ") = ln(" + arg + ") / ln(10) = " + display.value + "<br>";
+                    break;
+                case "√":
+                    arg = Number(display.value);
+                    display.value = Math.sqrt(arg);
+                    log.innerHTML += "√" + String(arg) + " = " + display.value + "<br>";
+                    break;
+                case "x²":
+                    arg = Number(display.value);
+                    display.value = Math.pow(arg, 2);
+                    log.innerHTML += "" + String(arg) + "² = " + display.value + "<br>";
+                    break;
+                    
+                case "+":
+                case "−":
+                case "÷":
+                case "×":
+                    operands[0] = Number(display.value);
+                    operation = btnVal;
+                    clearInputText(display);
+                    log.innerHTML += operands[0] + " " + operation + " ";
+                    break;
+                
+                case "=":
+                    operands[1] = Number(display.value);
+                    switch (operation) {
+                        case "+":
+                            display.value = operands[0] + operands[1];
+                            log.innerHTML += operands[1] + " " + btnVal + " " + display.value + "<br>";
+                            break;
+                        case "−":
+                            display.value = operands[0] - operands[1];
+                            log.innerHTML += operands[1] + " " + btnVal + " " + display.value + "<br>";
+                            break;
+                        case "÷":
+                            display.value = operands[0] / operands[1];
+                            log.innerHTML += operands[1] + " " + btnVal + " " + display.value + "<br>";
+                            break;
+                        case "×":
+                            display.value = operands[0] * operands[1];
+                            log.innerHTML += operands[1] + " " + btnVal + " " + display.value + "<br>";
+                            break;
+                    }
+                    break;
+                    
+                case "AC":
+                case "CE":
+                    clearInputText(display);
+                    break;
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <form>
+        <input style="width: 560px; text-align: right;" type="text" id="displayField" readonly>
+        <br>
+        <br>
+        
+        <input type="button" value="x!" onclick="btnClick(this.value)">
+        <input type="button" value="sin" onclick="btnClick(this.value)">
+        <input type="button" value="ln" onclick="btnClick(this.value)">
+        <input type="button" value="7" onclick="btnClick(this.value)">
+        <input type="button" value="8" onclick="btnClick(this.value)">
+        <input type="button" value="9" onclick="btnClick(this.value)">
+        <input type="button" value="÷" onclick="btnClick(this.value)">
+        <br>
+
+        <input type="button" value="π" onclick="btnClick(this.value)">
+        <input type="button" value="cos" onclick="btnClick(this.value)">
+        <input type="button" value="log₁₀" onclick="btnClick(this.value)">
+        <input type="button" value="4" onclick="btnClick(this.value)">
+        <input type="button" value="5" onclick="btnClick(this.value)">
+        <input type="button" value="6" onclick="btnClick(this.value)">
+        <input type="button" value="×" onclick="btnClick(this.value)">
+        <br>
+        
+        <input type="button" value="e" onclick="btnClick(this.value)">
+        <input type="button" value="tan" onclick="btnClick(this.value)">
+        <input type="button" value="√" onclick="btnClick(this.value)">
+        <input type="button" value="1" onclick="btnClick(this.value)">
+        <input type="button" value="2" onclick="btnClick(this.value)">
+        <input type="button" value="3" onclick="btnClick(this.value)">
+        <input type="button" value="−" onclick="btnClick(this.value)">
+        <br>
+
+        <input type="button" value="AC" title="All Clean - стереть все введённые ранее данные" onclick="btnClick(this.value)">
+        <input type="button" value="CE" title="Clean Entry - очистить только текущее поле ввода" onclick="btnClick(this.value)">
+        <input type="button" value="x²" onclick="btnClick(this.value)">
+        <input type="button" value="0" onclick="btnClick(this.value)">
+        <input type="button" value="," onclick="btnClick(this.value)">
+        <input type="button" value="=" onclick="btnClick(this.value)">
+        <input type="button" value="+" onclick="btnClick(this.value)">
+    </form>
+    
+    <br><br>
+    
+    <div id="log">
+    </div>
+</body>
+</html>
