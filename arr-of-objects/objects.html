@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <title>Объекты</title>
+
+    <script>
+        var resultObjects = [];  // массив объектов с 3 полями (возраст, пол, имя).
+        
+        // Функция для занесения данных в массив:
+        function addDataToArr(data, arr) {
+            var rows = data.split(';');
+            rows.forEach(function (currentRow, rowIdx, rowsArr) {
+                if (currentRow.trim().length > 0) {
+                    var fields = currentRow.split(',');
+                    arr.push({
+                        "age": Number(fields[0].trim()),
+                        "gender": fields[1].trim(),
+                        "name": fields[2].trim()
+                    });
+                }
+            });
+        }
+        
+        // Функция для вывода имен через запятую:
+        function printNames(arrOfObjects, outputElement) {
+            outputElement.innerHTML += "<br>Вывод имен через запятую:<br>";
+            arrOfObjects.forEach(function (person, personIndex, personArray) {
+                outputElement.innerHTML += person["name"]
+                    + (personIndex != personArray.length - 1 ? ", " : "<br>");
+            });
+        }
+        
+        // Функция для определения самого старого:
+        function oldest(arrOfObjects, outputElement) {
+            var oldestIndex = 0;
+            arrOfObjects.forEach(function (person, personIndex, personArray) {
+                if (person.age > personArray[oldestIndex].age) {
+                    oldestIndex = personIndex;
+                }
+            });
+            outputElement.innerHTML += "<br>" + arrOfObjects[oldestIndex].name +
+                (arrOfObjects[oldestIndex].gender.localeCompare("женский") === 0 ? " - самая старшая, ей " : " - самый старший, ему ")
+                + arrOfObjects[oldestIndex].age + ".<br>";
+        }
+        
+        // Функция для определения самого молодого:
+        function youngest(arrOfObjects, outputElement) {
+            var youngestIndex = 0;
+            arrOfObjects.forEach(function (person, personIndex, personArray) {
+                if (person.age < personArray[youngestIndex].age) {
+                    youngestIndex = personIndex;
+                }
+            });
+            outputElement.innerHTML += "<br>" + arrOfObjects[youngestIndex].name +
+                (arrOfObjects[youngestIndex].gender.localeCompare("женский") === 0 ? " - самая младшая, ей " : " - самый младший, ему ")
+                + arrOfObjects[youngestIndex].age + ".<br>";
+        }
+        
+        // Функция для удаления элемента:
+        function deleteEl(arrOfObjects, outputElement) {
+            var nameForDelete = prompt("Введите имя для удаления:", "Вальтер Носков");
+            
+            for (var i = 0; i < arrOfObjects.length; i++) {
+                if (arrOfObjects[i]["name"].localeCompare(nameForDelete) === 0) {
+                    arrOfObjects.splice(i, 1);
+                    outputElement.innerHTML += "<br>Объект со свойством 'name' равным '" + nameForDelete + "' был удален.<br>";
+                }
+            }
+            
+            outputElement.innerHTML += "Содержимое массива после удаления объекта:<br>";
+            arrOfObjects.forEach(function (person, personIndex, personArray) {
+                outputElement.innerHTML += person["name"]
+                    + (personIndex != personArray.length - 1 ? ", " : "<br>");
+            });
+        }
+        
+        // Функция для сортировки элементов массива по увеличению возраста:
+        function sortByAge(arrOfObjects, outputElement) {
+            arrOfObjects.sort(function (p1, p2) {
+                if (p1.age > p2.age) return 1;
+                if (p1.age < p2.age) return -1;
+            });
+            outputElement.innerHTML += "<br>Вывод элементов отсортированного по увеличению возраста массива:<br>";
+            arrOfObjects.forEach(function (person, personIndex, personArray) {
+                outputElement.innerHTML += person["name"] + " (" + person["age"] + ")"
+                    + (personIndex != personArray.length - 1 ? ", " : "<br>");
+            });
+        }
+        
+        // Функция для нахождения всех объектов одного пола:
+        function findByGender(arrOfObjects, genderIndex, outputElement) {
+            outputElement.innerHTML += "<br>Вывод всех персон "
+                + (genderIndex ? " женского " : " мужского ")
+                + " пола:<br>";
+            arrOfObjects.forEach(function (person, personIndex, personArray) {
+                if (person.gender.localeCompare(genderIndex ? "женский" : "мужской") === 0) {
+                    outputElement.innerHTML += person["name"] + "<br>";
+                }
+            });
+        }
+        
+        // Функция для нахождения среднего возраста:
+        function avgAge(arrOfObjects, outputElement) {
+            var sum = 0;
+            arrOfObjects.forEach(function (person, personIndex, personArray) {
+                sum += person["age"];
+            });
+            outputElement.innerHTML += "<br>Средний возраста = " + Math.round(sum / arrOfObjects.length).toString() + ".<br>";
+        }
+        
+    </script>
+</head>
+
+<body>
+
+    <form>
+        <label for="inputArrEl">Поле для ввода элементов массива, которые вводятся через запятую и точку запятую после перечисления полей для одного объекта:</label>
+        <br>
+        <textarea rows="10" cols="45" id="inputArrEl">
+25, мужской, Антон Медведев;
+20, женский, Аврора Зимина;
+26, мужской, Степан Александров;
+22, женский, Виолетта Орлова;
+18, мужской, Виктор Ларионов;
+27, женский, Наталия Калинина;
+24, мужской, Макс Богданов;
+19, женский, Стелла Крылова;
+21, мужской, Вальтер Носков;
+23, женский, Эльза Логинова;</textarea>
+        <br>
+        <!-- Кнопка для занесения данных в массив -->
+        <input type="button" value="Занести данные в массив." onclick="addDataToArr(document.getElementById('inputArrEl').value, resultObjects)">
+        <br><br>
+        
+        <!-- Кнопка для имен через запятую -->
+        <input type="button" value="Вывод имен через запятую." onclick="printNames(resultObjects, document.getElementById('result'))">
+        <br><br>
+        
+        Определить 
+        <!-- Кнопки для определения самого старого и самого молодого. -->
+        <input type="button" value="самого младшего" onclick="youngest(resultObjects, document.getElementById('result'))"> ,
+        <input type="button" value="самого старшего" onclick="oldest(resultObjects, document.getElementById('result'))"> или 
+        
+        <!-- Кнопка для нахождения среднего возраста -->
+        <input type="button" value="средний возраст" onclick="avgAge(resultObjects, document.getElementById('result'))">.
+        <br><br>
+        
+        <!-- Кнопка для удаления элемента -->
+        <input type="button" value="Удалить объект…" onclick="deleteEl(resultObjects, document.getElementById('result'))">
+        <br><br>
+        
+        <!-- Кнопка для сортировки элементов массива по увеличению возраста -->
+        <input type="button" value="Сортировка элементов массива по увеличению возраста." 
+            onclick="sortByAge(resultObjects, document.getElementById('result'))">
+        <br><br>
+        
+        <!-- Кнопка для нахождения всех объектов одного пола -->
+        <input type="button" value="Найти" 
+            onclick="findByGender(resultObjects, document.getElementById('gender').selectedIndex, document.getElementById('result'))"> все объекты
+        <select id="gender" size="1">
+            <option value="мужской">мужского</option>
+            <option value="женский">женского</option>
+        </select> пола.
+        <br><br>
+    </form>
+    
+    <hr>
+    
+    <div id="result">
+    </div>
+
+</body>
+</html>
