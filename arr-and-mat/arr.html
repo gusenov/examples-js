@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Массив</title>
+    <script>
+        var arrOfEl = [];
+        
+        // Функция для занесения данных в массив элементов:
+        function addDataToArr(arr, data) {
+            var elementsArr = data.split(','),
+                elementsArrLength = elementsArr.length;
+            for (var i = 0; i < elementsArrLength; i++) {
+                arr.push(elementsArr[i].trim());
+            }
+        }
+        
+        // Функция для вывода элементов массива через точку с запятой:
+        function printArrEl(arr, outEl) {
+            var arrLen = arr.length;
+            outEl.innerHTML += "Вывод элементов массива через точку с запятой:<br>";
+            for (var i = 0; i < arrLen; i++) {
+                outEl.innerHTML += arr[i] + (i != arrLen - 1 ? "; " : "<br>");
+            }
+        }
+        
+        // Функция для задания произвольного целого значения в диапазоне [min,max]:
+        function generateRandomValue(min, max, dstEl) {
+            var rndVal = Math.floor(Math.random() * (max - min + 1)) + min;
+            dstEl.value = Math.round(Math.random()) ? rndVal : -rndVal;
+        }
+        
+        // Функция для добавления нового элемента в начало массива:
+        function insNewElAtStart(arr, newEl) {
+            arr.unshift(newEl);
+        }
+        
+        // Функция для добавления нового элемента в конец массива:
+        function insNewElAtEnd(arr, newEl) {
+            arr.push(newEl);
+        }
+        
+        // Функция для удаления элемента из начала массива:
+        function delElAtStart(arr) {
+            return arr.shift();
+        }
+        
+        // Функция для удаления элемента из конца массива:
+        function delElAtEnd(arr) {
+            return arr.pop();
+        }
+        
+        // Функция для сортировки элементов массива по возрастанию:
+        function sortAsc(arr) {
+            arr.sort(function (a, b) {
+                if (a > b) return 1;
+                if (a < b) return -1;
+            });
+        }
+        
+        // Функция для сортировки элементов массива по убыванию:
+        function sortDesc(arr) {
+            arr.sort(function (a, b) {
+                if (a > b) return -1;
+                if (a < b) return 1;
+            });
+        }
+        
+        // Функция для нахождения суммы положительных элементов массива:
+        function sum(arr, outEl) {
+            var sum = 0,
+                arrLen = arr.length;
+            arr.forEach(function (item, i, A) {
+                if (Number(item) > 0)
+                    sum += Number(item);
+            });
+            outEl.innerHTML += "Сумма положительных элементов массива = " + sum + "<br>";
+        }
+    </script>
+</head>
+
+<body>
+    <form>
+        <!-- поле для ввода элементов массива, которые вводятся через запятую -->
+        <label for="inputArrEl">Поле для ввода элементов массива, которые вводятся через запятую:</label>
+        <br>
+        <input type="text" id="inputArrEl" value="3, -1, 8, 0, -7, 9, 4, -6, 2, 5">
+        <br>
+        <!-- Кнопка для занесения данных в массив элементов -->
+        <input type="button" value="Занести данные в массив элементов." onclick="addDataToArr(arrOfEl, document.getElementById('inputArrEl').value)">
+        <br><br>
+        
+        <!-- Кнопка для вывода элементов массива через точку с запятой -->
+        <input type="button" value="Вывести элементы массива через точку с запятой." onclick="printArrEl(arrOfEl, document.getElementById('result'))">
+        <br><br>
+
+        <label for="inputArrEl">Поле для ввода значения нового элемента массива:</label>
+        <br>
+        <!-- поле для ввода значения нового элемента массива -->
+        <input type="text" id="newElOfArr"> 
+        <!-- кнопка, позволяющая задать это значение произвольно -->
+        <input type="button" value="Задать значение произвольно." onclick="generateRandomValue(0, 1024, document.getElementById('newElOfArr'))">
+        <br>
+        Добавить новый элемент в
+        <!-- Кнопки для добавления нового элемента в начало и конец массива -->
+        <input type="button" value="начало" onclick="insNewElAtStart(arrOfEl, document.getElementById('newElOfArr').value)"> или
+        <input type="button" value="конец" onclick="insNewElAtEnd(arrOfEl, document.getElementById('newElOfArr').value)"> массива.
+        <br><br>
+
+        Удалить элемент из
+        <!-- Кнопки для удаления элемента из начала и конца массива -->
+        <input type="button" value="начала" onclick="delElAtStart(arrOfEl)"> или
+        <input type="button" value="конца" onclick="delElAtEnd(arrOfEl)"> массива.
+        <br><br>
+        
+        Сортировка элементов массива по 
+        <!-- Кнопки для сортировки элементов массива по возрастанию и убыванию -->
+        <input type="button" value="возрастанию" onclick="sortAsc(arrOfEl)"> и
+        <input type="button" value="убыванию" onclick="sortDesc(arrOfEl)">.
+        <br><br>
+        
+        <!-- Кнопка для нахождения суммы положительных элементов массива -->
+        <input type="button" value="Сумма положительных элементов массива." onclick="sum(arrOfEl, document.getElementById('result'))">
+        <br><br>
+    </form>
+    
+    <hr>
+    
+    <div id="result">
+    </div>
+</body>
+</html>

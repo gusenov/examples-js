@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <title>Матрица</title>
+
+    <script>
+        var resultMat = [];
+        
+        // Функция для занесения данных в матрицу элементов:
+        function addDataToMat(data, mat) {
+            var rows = data.split(';');
+            rows.forEach(function (currentRow, rowIdx, rowsArr) {
+                if (currentRow.trim().length > 0) {
+                    var elements = currentRow.split(','),
+                        newRow = [];
+                    elements.forEach(function (currentEl, elIdx, elArr) {
+                        newRow.push(currentEl.trim())
+                    });
+                    mat.push(newRow);
+                }
+            });
+        }
+        
+        // Функция для вывода элементов матрицы:
+        function printMatEl(mat, outEl) {
+            outEl.innerHTML += "Вывод элементов матрицы:<br>";
+            mat.forEach(function (currentRow, rowIdx, rowsArr) {
+                currentRow.forEach(function (currentEl, elIdx, elArr) {
+                    outEl.innerHTML += mat[rowIdx][elIdx] + ' ';
+                });
+                outEl.innerHTML += "<br>";
+            });
+        }
+        
+        // Функция для добавления нового столбца в матрицу:
+        function addColToMat(mat) {
+            var colData = prompt("Введите элементы столбца, разделяя их запятой:", "1, 2, 3"),
+                colElements = colData.split(',');
+            mat.forEach(function (currentRow, rowIdx, rowsArr) {
+                currentRow.push(Number(colElements.shift().trim()));
+            });
+        }
+        
+        // Функция для вычисления матрицы-столбца, где каждый элемент – сумма по строке исходной матрицы:
+        function calcColMatAsRowSum(mat, outEl) {
+            var colMat = [];
+            outEl.innerHTML += "Матрица-столбец, где каждый элемент – сумма по строке исходной матрицы:<br>";
+            mat.forEach(function (currentRow, rowIdx, rowsArr) {
+                var sum = 0;
+                currentRow.forEach(function (currentEl, elIdx, elArr) {
+                    sum += Number(mat[rowIdx][elIdx]);
+                });
+                colMat.push(sum);
+                outEl.innerHTML += sum + "<br>";
+            });
+        }
+    </script>
+
+</head>
+
+<body>
+    <form>
+        <label for="inputMatEl">Поле для ввода элементов матрицы, которые вводятся через запятую точку запятой соответственно:</label>
+        <br>
+        <textarea rows="10" cols="45" id="inputMatEl">
+1, 2, 3;
+4, 5, 6;
+7, 8, 9;</textarea>
+        <br>
+        <!-- Кнопка для занесения данных в матрицу элементов -->
+        <input type="button" value="Занести данные в матрицу элементов." onclick="addDataToMat(document.getElementById('inputMatEl').value, resultMat)">
+        <br><br>
+        
+        <!-- Кнопка для вывода элементов матрицы -->
+        <input type="button" value="Вывести элементы матрицы." onclick="printMatEl(resultMat, document.getElementById('result'))">
+        <br><br>
+        
+        <!-- Кнопка для добавления нового столбца в матрицу. -->
+        <input type="button" value="Добавить новый столбец в матрицу." onclick="addColToMat(resultMat)">
+        <br><br>
+        
+        <!-- Кнопка для вычисления матрицы-столбца, где каждый элемент – сумма по строке исходной матрицы -->
+        <input type="button" value="Вычислить матрицу-столбец, где каждый элемент – сумма по строке исходной матрицы."
+            onclick="calcColMatAsRowSum(resultMat, document.getElementById('result'))">
+        <br><br>
+    </form>
+    
+    <hr>
+    
+    <div id="result">
+    </div>
+</body>
+</html>

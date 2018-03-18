@@ -2,3 +2,4 @@
 - [Функции prompt(), confirm() и window.open().](promt-and-popup/)
 - [Простой калькулятор с основными действиями, в том числе математическими функциями](simple-calculator/)
 - [Смена фонового рисунка или цвета.](bg-colors-and-images/)
+- [Методы массивов: pop/push, shift/unshift, sort, forEach.](arr-and-mat/)
