@@ -4,3 +4,5 @@
 - [Смена фонового рисунка или цвета.](bg-colors-and-images/)
 - [Методы массивов: pop/push, shift/unshift, sort, forEach.](arr-and-mat/)
 - [Массив объектов с 3 полями (возраст, пол, имя).](arr-of-objects/)
+- [Быстрая сортировка (Хоара) чисел](quicksort-hoare/)
+
