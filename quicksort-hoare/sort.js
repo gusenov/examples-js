@@ -24,6 +24,24 @@ class SortArray {
 
     this.isArrayCreated = false;
 
+    // Количество рекурсивных вызовов:
+    this.recCnt = 0;
+
+    // Количество разбиений:
+    this.partitionCnt = 0;
+
+    // Количество итераций во внешнем цикле:
+    this.outerLoop = 0;
+
+    // Количество итераций во внутреннем цикле i:
+    this.innerLoopLeft = 0;
+
+    // Количество итераций во внутреннем цикле j:
+    this.innerLoopRight = 0;
+
+    // Количество обменов:
+    this.swapCnt = 0;
+
     this.handleCreateArray = this.handleCreateArray.bind(this);
     this.createArrayOfInput = this.createArrayOfInput.bind(this);
     this.createInput = this.createInput.bind(this);
@@ -34,6 +52,8 @@ class SortArray {
     this.swap = this.swap.bind(this);
 
     this.showArray = this.showArray.bind(this);
+
+    this.resetCounters = this.resetCounters.bind(this);
   }
 
   // Связать кнопку "Создать массив" с методом handleCreateArray:
@@ -102,8 +122,10 @@ class SortArray {
 
   // Обработчик события нажатия на кнопку "Отсортировать":
   handleSortSubmit() {
+
     this.array = [];
     this.resultElement.innerText = "";
+    this.resetCounters();
 
     for (let i = 0; i < this.size; ++i) {
       const arrElems = document.querySelectorAll(`.i-${i}`);
@@ -118,11 +140,21 @@ class SortArray {
     this.showArray(-1, -1);
 
     this.quickSort(0, this.size - 1);
+
+    this.resultElement.innerHTML += "<br>";
+    this.resultElement.innerHTML += `Количество рекурсивных вызовов (функция quickSort): ${this.recCnt}<br>`;
+    this.resultElement.innerHTML += `Количество разбиений Хоара (функция partition): ${this.partitionCnt}<br>`;
+    this.resultElement.innerHTML += `Общее количество итераций во внешнем цикле (функция partition, бесконечный цикл while): ${this.outerLoop}<br>`;
+    this.resultElement.innerHTML += `Общее количество итераций во внутреннем цикле движущемся от начала к концу (функция partition, цикл while по i): ${this.innerLoopLeft}<br>`;
+    this.resultElement.innerHTML += `Общее количество итераций во внутреннем цикле движущемся от конца к началу (функция partition, цикл while по j): ${this.innerLoopRight}<br>`;
+    this.resultElement.innerHTML += `Общее количество обменов (функция swap): ${this.swapCnt}<br>`;
   }
 
   // Быстрая сортировка:
   quickSort(lo, hi) {
     // lo и hi — соответственно, нижняя и верхняя границы сортируемого участка этого массива.
+
+    ++this.recCnt;
 
     if (lo < hi) {
         // Опорный элемент:
@@ -136,6 +168,8 @@ class SortArray {
 
   // Разбиение Хоара:
   partition(lo, hi) {
+      ++this.partitionCnt;
+
       // Выбрать элемент из массива. Назовём его опорным:
       const pivot = this.array[Math.floor((lo + hi) / 2)];
 
@@ -149,11 +183,17 @@ class SortArray {
       // что элементы меньше опорного помещаются перед ним,
       // а больше или равные после:
       while (1) {
+          ++this.outerLoop;
+
           do {
+            ++this.innerLoopLeft;
+
             i = i + 1;
           } while (this.array[i] < pivot);
 
           do {
+            ++this.innerLoopRight;
+
             j = j - 1
           } while (this.array[j] > pivot);
 
@@ -171,6 +211,8 @@ class SortArray {
 
   // Обмен местами i-го и j-го элементов массива:
   swap(i, j) {
+    ++this.swapCnt;
+
      const temp = this.array[i];
      this.array[i] = this.array[j];
      this.array[j] = temp;
@@ -187,6 +229,15 @@ class SortArray {
       }
     });
     this.resultElement.innerHTML += `[ ${output} ]<br>`;
+  }
+
+  resetCounters() {
+    this.recCnt = 0;
+    this.partitionCnt = 0;
+    this.outerLoop = 0;
+    this.innerLoopLeft = 0;
+    this.innerLoopRight = 0;
+    this.swapCnt = 0;
   }
 
 }
